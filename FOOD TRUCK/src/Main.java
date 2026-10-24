@@ -33,6 +33,11 @@ public class Main {
 
             if (seleccion != 5) {
                 registrarVenta(ventas, productos, seleccion - 1);
+            } else {
+                totalProducto(ventas, totProd);
+                totalTurno(ventas, totTurno);
+                totGeneral = totalGeneral(ventas);
+                mostrarResultados(productos, turnos, totProd, totTurno, totGeneral);
             }
         } while (seleccion != 5);
     }
@@ -87,4 +92,85 @@ public class Main {
         return v;
     }
 
+                                                //METODO REPORTE//
+
+    static void totalProducto(double[][] m, double[] vp) {
+        for (int i = 0; i < NUM_PRODUCTOS; i++) {
+            vp[i] = 0;
+            for (int j = 0; j < NUM_TURNOS; j++) {
+                vp[i] += m[i][j];
+            }
+        }
+    }
+
+    static void totalTurno(double[][] m, double[] vt) {
+        for (int j = 0; j < NUM_TURNOS; j++) {
+            vt[j] = 0;
+            for (int i = 0; i < NUM_PRODUCTOS; i++) {
+                vt[j] += m[i][j];
+            }
+        }
+    }
+
+    static double totalGeneral(double[][] m) {
+        double t = 0;
+        for (int i = 0; i < NUM_PRODUCTOS; i++) {
+            for (int j = 0; j < NUM_TURNOS; j++) {
+                t += m[i][j];
+            }
+        }
+        return t;
+    }
+
+    static int buscarMayor(double[] v, int n) {
+        int pos = 0;
+        for (int k = 1; k < n; k++) {
+            if (v[k] > v[pos]) {
+                pos = k;
+            }
+        }
+        return pos;
+    }
+
+    static int buscarMenor(double[] v, int n) {
+        int pos = 0;
+        for (int k = 1; k < n; k++) {
+            if (v[k] < v[pos]) {
+                pos = k;
+            }
+        }
+        return pos;
+    }
+
+    static void mostrarResultados(String[] nombres, String[] turnos, double[] vp, double[] vt, double total) {
+        limpiarPantalla();
+        System.out.println("REPORTE:");
+        for (int i = 0; i < NUM_PRODUCTOS; i++) {
+            System.out.println(nombres[i] + ": $" + formato(vp[i]));
+        }
+        for (int i = 0; i < NUM_TURNOS; i++) {
+            System.out.println(turnos[i] + ": $" + formato(vt[i]));
+        }
+        int a = buscarMayor(vp, NUM_PRODUCTOS);
+        int b = buscarMenor(vp, NUM_PRODUCTOS);
+        int c = buscarMayor(vt, NUM_TURNOS);
+        int d = buscarMenor(vt, NUM_TURNOS);
+        System.out.println("Producto mayor: " + nombres[a] + " $" + formato(vp[a]));
+        System.out.println("Producto menor: " + nombres[b] + " $" + formato(vp[b]));
+        System.out.println("Turno mayor: " + turnos[c] + " $" + formato(vt[c]));
+        System.out.println("Turno menor: " + turnos[d] + " $" + formato(vt[d]));
+        System.out.println("TOTAL GENERAL RECAUDADO: $" + formato(total));
+        if (total > META) {
+            System.out.println("Meta de Ventas Alcanzada");
+        } else {
+            System.out.println("Meta No Alcanzada");
+        }
+    }
+
+    static String formato(double valor) {
+        if (valor == Math.floor(valor)) {
+            return String.valueOf((long) valor);
+        }
+        return String.valueOf(valor);
+    }
 }
