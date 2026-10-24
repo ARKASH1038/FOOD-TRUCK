@@ -18,8 +18,61 @@ public class Main {
         double[] totTurno = new double[NUM_TURNOS];
         double totGeneral;
         int seleccion;
+
+        do {
+            limpiarPantalla();
+            System.out.println("BIENVENIDO A:");
+            System.out.println("FOOD TRUCK GOENAGA EXPRESS");
+            System.out.println("DIGITE EL NUMERO DE LA OPCION QUE LE CORRESPONDA:");
+            System.out.println("1-TURNO ALMUERZO");
+            System.out.println("2-TURNO TARDE");
+            System.out.println("3-TURNO NOCHE");
+            System.out.println("4-TURNO MADRUGADA");
+            System.out.println("5-GENERAR REPORTE");
+            seleccion = pedirOpcion(5);
+
+            if (seleccion != 5) {
+                registrarVenta(ventas, productos, seleccion - 1);
+            }
+        } while (seleccion != 5);
     }
 
+                                //METODO REGISTRAR VENTAS//
 
+    static void limpiarPantalla() {
 
+        for (int i = 0; i < 40; i++) {
+            System.out.println();
+        }
+    }
+
+    static int pedirOpcion(int maximo) {
+        int v;
+        do {
+            while (!sc.hasNextInt()) {
+                sc.next();
+            }
+            v = sc.nextInt();
+        } while (v < 1 || v > maximo);
+        return v;
+    }
+
+    static double leerReal() {
+        while (!sc.hasNextDouble()) {
+            sc.next();
+        }
+        return sc.nextDouble();
+    }
+
+    static void registrarVenta(double[][] m, String[] nombres, int turno) {
+        limpiarPantalla();
+        System.out.println("SELECCIONE EL PRODUCTO:");
+        for (int i = 0; i < NUM_PRODUCTOS; i++) {
+            System.out.println((i + 1) + "-" + nombres[i]);
+        }
+        int p = pedirOpcion(NUM_PRODUCTOS) - 1;
+        limpiarPantalla();
+        System.out.println("INGRESA EL TOTAL DE LAS VENTAS:");
+        m[p][turno] += leerReal();
+    }
 }
