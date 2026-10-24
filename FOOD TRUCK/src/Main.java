@@ -72,7 +72,19 @@ public class Main {
         }
         int p = pedirOpcion(NUM_PRODUCTOS) - 1;
         limpiarPantalla();
-        System.out.println("INGRESA EL TOTAL DE LAS VENTAS:");
-        m[p][turno] += leerReal();
+        m[p][turno] += validarNoNegativo("INGRESA EL TOTAL DE LAS VENTAS:");
     }
+                                            //METODO VALIDACION//
+
+    static double validarNoNegativo(String mensaje) {
+        double v;
+        System.out.println(mensaje);
+        v = leerReal();
+        while (v < 0) {
+            System.out.println("Error: El valor no puede ser negativo. Intente de nuevo:");
+            v = leerReal();
+        }
+        return v;
+    }
+
 }
